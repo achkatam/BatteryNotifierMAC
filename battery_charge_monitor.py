@@ -18,13 +18,9 @@ def notify():
 def main():
     while True:
         battery_percent, battery_power_plugged = get_battery_status()
-        if battery_power_plugged and battery_percent >= 80:
+        if not battery_power_plugged and battery_percent <= 80:
             notify()
-
-            while battery_power_plugged:
-                time.sleep(2)
-                _, battery_power_plugged = get_battery_status()
-        time.sleep(2)
+            time.sleep(60)
 
 
 if __name__ == "__main__":
