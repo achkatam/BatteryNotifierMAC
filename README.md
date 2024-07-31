@@ -25,47 +25,41 @@ It is designed to run in the background as a LaunchAgent.
 4. Create a LaunchAgent to Run the Script in    the Background:
 
    1. Create the LaunchAgents Directory (if it     doesn't exist):
-
-   sh
-      Copy code
       mkdir -p ~/Library/LaunchAgents
-      reate the .plist File:
-
-   2.Create '.plist' File:
+   2. Create '.plist' File:
       Use a text editor to create a .plist file in    he LaunchAgents folder. For example, you can   se nano:
-
-   
-      copy code
-      nano ~/Library/LaunchAgents/com.user.     Batteryalert.plist
+      nano ~/Library/LaunchAgents/com.user.batteryalert.plist
   3. Edit the .plist File:
 
    Add the following content to the file,    eplacing /path/to/your/battery_charge_monitor. y with the full path to your script:
 
+      """
+       ?xml version="1.0" encoding="UTF-8"?>
+      <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+      <plist version="1.0">
+      <dict>
+         <key>Label</key>
+         <string>com.user.batteryalert</string>
+         <key>ProgramArguments</key>
+         <array>
+            <string>/path/to/your/script/batterynotifer.py</string>
+         </array>
+         # In case you do not want the app to start everytime you turn the system ON
+         # delete the following 2 lines:
+         <key>RunAtLoad</key>
+         <true/>
+         <key>KeepAlive</key>
+         <true/>
+      </dict>
+      </plist>
+      "":
 5. Load the LaunchAgent:
 
    Load the LaunchAgent to start the script in the background:
 
-   sh
-   Copy code
    launchctl load ~/Library/LaunchAgents/com.user.batteryalert.plist
 
 6. Stopping the Script:
    To stop the script, unload the LaunchAgent:
 
-   sh
-   Copy code
    launchctl unload ~/Library/LaunchAgents/com.user.batteryalert.plist
-
-   Removing the Script
-   To remove the script and its associated LaunchAgent:
-
-   Delete the .plist File:
-
-   sh
-   Copy code
-   rm ~/Library/LaunchAgents/com.user.batteryalert.plist
-   Delete the Script (if desired):
-
-   sh
-   Copy code
-   rm /path/to/your/battery_charge_monitor.py
